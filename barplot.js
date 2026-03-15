@@ -16,15 +16,16 @@ cars.then(function(data) {
         .attr("width", width)
         .attr("height", height)
         .style('background', '#e9f7f2');
-
+    
+    // Create a tooltip div that will appear when hovering over bars
     const tooltip = d3.select("body")
-        .append("div")
-        .style("position","absolute")
-        .style("background","white")
-        .style("padding","5px")
-        .style("border","1px solid black")
-        .style("border-radius","4px")
-        .style("visibility","hidden");
+        .append("div") // add a new div element for the tooltip
+        .style("position","absolute") // allows the tooltip to move with the cursor
+        .style("background","white") // background color for readability
+        .style("padding","5px") // small spacing inside the tooltip
+        .style("border","1px solid black") // border to make tooltip visible
+        .style("border-radius","4px") // rounded edges
+        .style("visibility","hidden"); // tooltip is hidden until the mouse hovers
 
     const x0 = d3.scaleBand()
       .domain([...new Set(data.map(d => d["body-style"]))])
@@ -70,46 +71,28 @@ cars.then(function(data) {
       .attr("height", d => height - margin.bottom - y(d.price))
       .attr("fill", d => color(d["drive-wheels"]))
 
+  // When mouse enters a bar, show tooltip with information
       .on("mouseover", function(event,d){
-      tooltip
-        .style("visibility","visible")
-        .html(
-          "Body Style: " + d["body-style"] +
-          "<br>Drive Wheels: " + d["drive-wheels"] +
-          "<br>Price: $" + d.price
-        );
+          tooltip
+            .style("visibility","visible") // make tooltip visible
+            .html(
+              "Body Style: " + d["body-style"] +
+              "<br>Drive Wheels: " + d["drive-wheels"] +
+              "<br>Price: $" + d.price
+            ); // display information about the bar
       })
 
-      .on("mousemove", function(event){
+  // Move tooltip to follow the cursor
+  .on("mousemove", function(event){
       tooltip
-        .style("top",(event.pageY+10)+"px")
-        .style("left",(event.pageX+10)+"px");
-      })
+        .style("top",(event.pageY+10)+"px") // vertical position near cursor
+        .style("left",(event.pageX+10)+"px"); // horizontal position near cursor
+  })
 
-      .on("mouseout", function(){
+  // Hide tooltip when cursor leaves the bar
+  .on("mouseout", function(){
       tooltip.style("visibility","hidden");
-      });
-
-        const legend = svg.append("g")
-          .attr("transform", `translate(${width - 70}, ${margin.top})`);
-
-        const types = [...new Set(data.map(d => d["drive-wheels"]))];
-
-        types.forEach((type, i) => {
-          legend.append("rect")
-              .attr("x", 0)
-              .attr("y", i * 20)
-              .attr("width", 15)
-              .attr("height", 15)
-              .attr("fill", d => color(type));
-
-          legend.append("text")
-              .attr("x", 20)
-              .attr("y", i * 20 + 12)
-              .text(type)
-              .style("font-size", "12px")
-              .attr("alignment-baseline", "middle");
-      });
+  });
 
   // Add x-axis label
     svg.append("text")
