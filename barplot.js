@@ -70,7 +70,6 @@ cars.then(function(data) {
       .attr("width", x1.bandwidth())
       .attr("height", d => height - margin.bottom - y(d.price))
       .attr("fill", d => color(d["drive-wheels"]))
-
   // When mouse enters a bar, show tooltip with information
       .on("mouseover", function(event,d){
           tooltip
@@ -78,17 +77,15 @@ cars.then(function(data) {
             .html(
               "Body Style: " + d["body-style"] +
               "<br>Drive Wheels: " + d["drive-wheels"] +
-              "<br>Price: $" + d.price
+              "<br>Price: $" + d.price.toFixed(2)
             ); // display information about the bar
       })
-
   // Move tooltip to follow the cursor
   .on("mousemove", function(event){
       tooltip
         .style("top",(event.pageY+10)+"px") // vertical position near cursor
         .style("left",(event.pageX+10)+"px"); // horizontal position near cursor
   })
-
   // Hide tooltip when cursor leaves the bar
   .on("mouseout", function(){
       tooltip.style("visibility","hidden");
