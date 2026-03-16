@@ -19,13 +19,20 @@ cars.then(function(data) {
     
     // Create a tooltip div that will appear when hovering over bars
     const tooltip = d3.select("body")
-        .append("div") // add a new div element for the tooltip
-        .style("position","absolute") // allows the tooltip to move with the cursor
-        .style("background","white") // background color for readability
-        .style("padding","5px") // small spacing inside the tooltip
-        .style("border","1px solid black") // border to make tooltip visible
-        .style("border-radius","4px") // rounded edges
-        .style("visibility","hidden"); // tooltip is hidden until the mouse hovers
+        .append("div") 
+        // add a new div element for the tooltip
+        .style("position","absolute") 
+        // allows the tooltip to move with the cursor
+        .style("background","white") 
+        // background color for readability
+        .style("padding","5px") 
+        // small spacing inside the tooltip
+        .style("border","1px solid black") 
+        // border to make tooltip visible
+        .style("border-radius","4px") 
+        // rounded edges
+        .style("visibility","hidden"); 
+    // tooltip is hidden until the mouse hovers
 
     const x0 = d3.scaleBand()
       .domain([...new Set(data.map(d => d["body-style"]))])
@@ -73,18 +80,23 @@ cars.then(function(data) {
   // When mouse enters a bar, show tooltip with information
       .on("mouseover", function(event,d){
           tooltip
-            .style("visibility","visible") // make tooltip visible
+            .style("visibility","visible") 
+            // make tooltip visible
             .html(
               "Body Style: " + d["body-style"] +
               "<br>Drive Wheels: " + d["drive-wheels"] +
               "<br>Price: $" + d.price.toFixed(2)
-            ); // display information about the bar
+            //round to second for price
+            ); 
+          // display information about the bar
       })
   // Move tooltip to follow the cursor
   .on("mousemove", function(event){
       tooltip
-        .style("top",(event.pageY+10)+"px") // vertical position near cursor
-        .style("left",(event.pageX+10)+"px"); // horizontal position near cursor
+        .style("top",(event.pageY+10)+"px") 
+          // vertical position near cursor
+        .style("left",(event.pageX+10)+"px"); 
+      // horizontal position near cursor
   })
   // Hide tooltip when cursor leaves the bar
   .on("mouseout", function(){
